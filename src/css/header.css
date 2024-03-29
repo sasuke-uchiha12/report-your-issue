@@ -1,0 +1,34 @@
+/* Header.css */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #222831;
+    /* Dark Charcoal for the header background */
+    color: #EEEEEE;
+    /* Off-White for the text */
+    padding: 1.1rem 6rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    color: #76ABA9;
+    /* Soft Cyan for the button that looks like a link */
+    padding: 0;
+    margin-left: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+.nav-button:hover,
+.nav-button:focus {
+    text-decoration: underline;
+    outline: none;
+}

@@ -1,0 +1,49 @@
+/* HomeCarousel.css */
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-container img {
+    width: 100%;
+    height: 500px;
+    display: block;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.carousel-container img.active {
+    opacity: 1;
+    position: relative;
+}
+
+/* Arrow button styles */
+.carousel-container .prev,
+.carousel-container .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    border: none;
+    font-size: 24px;
+    padding: 10px 20px;
+    border-radius: 0 6px 6px 0;
+    /* Rounded corners for the left arrow */
+}
+
+.carousel-container .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+    /* Rounded corners for the right arrow */
+}
+
+.carousel-container .prev:hover,
+.carousel-container .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
