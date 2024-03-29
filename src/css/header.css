@@ -1,34 +1,38 @@
-/* Header.css */
+/* header.css */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #222831;
-    /* Dark Charcoal for the header background */
-    color: #EEEEEE;
-    /* Off-White for the text */
-    padding: 1.1rem 6rem;
-}
-
-.logo {
-    font-size: 1.5rem;
+    background-color: #222831; /* Dark charcoal for depth and focus */
+    color: #EEEEEE; /* Light color for contrast */
+    padding: 1rem 2rem; /* Adequate padding for spaciousness */
+  }
+  
+  .logo {
+    font-size: 2rem; /* Larger logo for brand emphasis */
     font-weight: bold;
-}
-
-.nav-button {
-    background: none;
-    border: none;
-    color: #76ABA9;
-    /* Soft Cyan for the button that looks like a link */
-    padding: 0;
-    margin-left: 1rem;
-    cursor: pointer;
+    cursor: pointer; /* Suggests interactivity */
+  }
+  
+  nav {
+    display: flex;
+  }
+  
+  .nav-button {
+    background-color: transparent; /* Seamless integration with header */
+    border: 2px solid #76ABA9; /* Soft cyan for a pop of color */
+    color: #76ABA9; /* Matching text color */
     font-size: 1rem;
-    text-decoration: none;
-}
-
-.nav-button:hover,
-.nav-button:focus {
-    text-decoration: underline;
-    outline: none;
-}
+    padding: 0.5rem 1rem; /* Comfortable clickable area */
+    margin-left: 1rem; /* Space between buttons */
+    border-radius: 25px; /* Rounded edges for a modern look */
+    cursor: pointer; /* Indicate button functionality */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for feedback */
+  }
+  
+  .nav-button:hover, .nav-button:focus {
+    background-color: #76ABA9; /* Highlight button on hover/focus */
+    color: #222831; /* Ensure text remains legible */
+    outline: none; /* Remove focus outline for clean design, ensure alternative focus indicator */
+  }
+  
