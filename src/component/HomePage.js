@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./header";
 import HomeCarousel from "./HomeCarousel";
 import LoginTypeSelection from "./LoginTypeSelection";
+import Footer from "./Footer";
 
 const HomePage = () => {
     return(
@@ -9,6 +10,7 @@ const HomePage = () => {
         <Header/>
         <HomeCarousel/>
         <LoginTypeSelection/>
+        <Footer/>
         </div>
     );
 }

@@ -1,49 +1,75 @@
 /* HomeCarousel.css */
 .carousel-container {
-    width: 100%;
+    position: relative;
+    max-width: 100%;
+    margin: auto;
     overflow: hidden;
-    position: relative;
 }
 
-.carousel-container img {
-    width: 100%;
-    height: 500px;
-    display: block;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.carousel-container img.active {
-    opacity: 1;
-    position: relative;
-}
-
-/* Arrow button styles */
-.carousel-container .prev,
-.carousel-container .next {
+/* Initially hide the arrows */
+.prev,
+.next {
     cursor: pointer;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     color: white;
     border: none;
     font-size: 24px;
-    padding: 10px 20px;
-    border-radius: 0 6px 6px 0;
-    /* Rounded corners for the left arrow */
+    padding: 10px;
+    border-radius: 50%;
+    opacity: 0;
+    /* Arrows are invisible initially */
+    transition: opacity 0.3s ease;
+    /* Smooth transition for opacity */
 }
 
-.carousel-container .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-    /* Rounded corners for the right arrow */
+/* Only show the arrows when hovering over the carousel */
+.carousel-container:hover .prev,
+.carousel-container:hover .next {
+    opacity: 1;
+    /* Make arrows visible on hover */
 }
 
-.carousel-container .prev:hover,
-.carousel-container .next:hover {
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+
+.prev:hover,
+.next:hover {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 550px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.slide.active {
+    opacity: 1;
+    position: relative;
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+}
+
+.slide-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    width: 100%;
 }

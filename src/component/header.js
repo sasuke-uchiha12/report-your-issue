@@ -3,20 +3,19 @@ import React from 'react';
 import '../css/header.css';
 
 function Header() {
-  // Assuming you'll add event handlers for these actions
   const handleHomeClick = (e) => {
     e.preventDefault();
-    // Handle home click
+
   };
 
   const handleAboutClick = (e) => {
     e.preventDefault();
-    // Handle about click
+
   };
 
   const handleContactClick = (e) => {
     e.preventDefault();
-    // Handle contact click
+
   };
 
   return (
