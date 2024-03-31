@@ -1,0 +1,91 @@
+.complaint-form-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #31363F;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.complaint-form-container h2 {
+    color: #76ABA9;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    margin-bottom: 8px;
+    color: #EEEEEE;
+}
+
+.input-group input,
+.input-group textarea,
+.input-group select {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #76ABA9;
+    background-color: #2A2E35;
+    color: #EEEEEE;
+    margin-bottom: 8px;
+}
+
+.input-group input[type="file"] {
+    border: 0;
+    background: transparent;
+    color: #76ABA9;
+}
+
+.input-group input[type="file"]::file-selector-button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    background-color: #76ABA9;
+    color: #2A2E35;
+    margin-right: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.input-group input[type="file"]::file-selector-button:hover {
+    background-color: #5a9f98;
+}
+
+.complaint-form-container button {
+    padding: 12px 0;
+    border-radius: 4px;
+    border: none;
+    background-color: #76ABA9;
+    color: #2A2E35;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 16px;
+}
+
+.complaint-form-container button:hover {
+    background-color: #5a9f98;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .complaint-form-container {
+        margin: 20px;
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .complaint-form-container {
+        margin: 10px;
+        padding: 10px;
+    }
+}

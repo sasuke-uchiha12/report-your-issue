@@ -51,10 +51,8 @@
     font-size: 0.85rem;
     padding-top: 1rem;
     border-top: 1px solid #4f5b66;
-    /* A lighter shade for the line */
 }
 
-/* Responsive adjustments if necessary */
 @media (max-width: 768px) {
     .footer-content {
         flex-direction: column;
