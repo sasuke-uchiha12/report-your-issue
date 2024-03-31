@@ -14,13 +14,19 @@ app.use(bodyParser.urlencoded({
 
 router.post('/signup', async (req, res) => {
   try {
-    const { uname, password } = req.body;
-    const existingUser = await User.findOne({ username:`${uname}` });
+    const { uname, password, email, phoneNumber, name } = req.body;
+    const existingUser = await User.findOne({ username: uname });
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username:`${uname}`, password: hashedPassword });
+    const newUser = new User({
+      username: uname,
+      password: hashedPassword,
+      email,
+      phoneNumber,
+      name
+    });
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
   } catch (err) {
@@ -31,9 +37,9 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    
+
     const { uname, password } = req.body;
-    const user = await User.findOne({username:`${uname}`});
+    const user = await User.findOne({ username: `${uname}` });
     console.log(req.body);
     console.log(user.username);
     console.log(user.password);
@@ -42,7 +48,7 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Authentication failed' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    
+
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
