@@ -12,7 +12,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginTypeSelection />} />
-
         <Route path="/login/:userType" element={<LoginPage />} />
         <Route path="/complaint/:userType" element={<ComplaintForm />} />
 
