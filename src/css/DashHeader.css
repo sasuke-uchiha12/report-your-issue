@@ -1,0 +1,88 @@
+/* DashHeader.css */
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #2A2E35;
+    color: #EEEEEE;
+}
+
+.header-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header-nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header-nav-item {
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.header-nav-item:hover,
+.header-nav-item:focus {
+    color: #76ABA9;
+}
+
+.header-user-section {
+    display: flex;
+    align-items: center;
+}
+
+.header-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.header-user-name {
+    margin-right: 1rem;
+}
+
+.header-user-dropdown {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: inherit;
+}
+
+.header-user-dropdown:hover {
+    color: #76ABA9;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0.5rem 1rem;
+    }
+
+    .header-logo {
+        font-size: 1.2rem;
+    }
+
+    .header-nav-item {
+        padding: 0 0.5rem;
+    }
+
+    .header-user-avatar {
+        width: 30px;
+        height: 30px;
+    }
+
+    .header-user-name {
+        display: none;
+        /* Hide the username on smaller screens */
+    }
+}

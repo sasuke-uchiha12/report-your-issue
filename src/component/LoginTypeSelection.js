@@ -10,9 +10,9 @@ function LoginTypeSelection() {
         { icon: faBuilding, text: 'Superadmin', path: '/login/superadmin' },
         { icon: faBriefcase, text: 'Admin', path: '/login/admin' },
         { icon: faGraduationCap, text: 'Department', path: '/login/department' },
-        { icon: faBuilding, text: 'Ledger', path: '/login/ledger' },
-        { icon: faBriefcase, text: 'Staff', path: '/complaint/staff' },
-        { icon: faGraduationCap, text: 'Student', path: '/complaint/student' }
+        // { icon: faBuilding, text: 'Ledger', path: '/login/ledger' },
+        // { icon: faBriefcase, text: 'Staff', path: '/complaint/staff' },
+        // { icon: faGraduationCap, text: 'Student', path: '/complaint/student' }
     ];
 
     return (
