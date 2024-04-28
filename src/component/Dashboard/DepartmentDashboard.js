@@ -44,6 +44,7 @@ const DepartmentDashboard = () => {
                     <button onClick={toggleFormVisibility}>Add New Complaint</button>
                 </div>
             </div>
+            
         </div>
     );
 }
