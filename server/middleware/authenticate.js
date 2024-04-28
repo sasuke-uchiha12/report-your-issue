@@ -7,7 +7,6 @@ const router = express.Router();
 const complaintRoutes = require('../routes/complaint');
 const app = express();
 
-
 function authenticate(req, res, next) {
   // Get the token from the Authorization header
   const token = req.headers.authorization.split(' ')[1];
@@ -23,7 +22,8 @@ function authenticate(req, res, next) {
     console.log(data);
     req.user = data.userId;
     // res.status(201).json({ message: 'Auth is done' });
-    next();
+    next()
+
     
     
     
@@ -47,5 +47,19 @@ function authenticate(req, res, next) {
     //console.log("0");
   }
 }
-
+router.post('/submit',authenticate, async (req, res) => {
+  try {
+    const { description } = req.body;
+    console.log(req.body);
+    const id = req.user.userId;
+    const complaintId = generateComplaintId();
+    console.log(complaintId);
+    const newComplaint = new Complaint({ id, complaintId, description });
+    await newComplaint.save();
+    res.status(201).json({ message: 'Complaint submitted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 module.exports = authenticate;

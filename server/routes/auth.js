@@ -20,7 +20,7 @@ router.post('/signup', async (req, res) => {
       return res.status(400).json({ message: 'User already exists' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({
+    const newUser = new User({ 
       username: uname,
       password: hashedPassword,
       email,
@@ -35,24 +35,37 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+
 router.post('/login', async (req, res) => {
   try {
-
     const { uname, password } = req.body;
-    const user = await User.findOne({ username: `${uname}` });
+    const user = await User.findOne({username:`${uname}`});    
     console.log(req.body);
     console.log(user.username);
     console.log(user.password);
     console.log(password);
+
     if (!user) {
-      return res.status(401).json({ message: 'Authentication failed' });
+      return res.status(401).json({ message: 'Authentication failed 1' });
     }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Authentication failed' });
+      return res.status(401).json({ message: 'Authentication failed 2' });
     }
-    const token = jwt.sign({ userId: user._id }, config.jwtSecret, { expiresIn: '1h' });
+
+    // Include user details in the token payload
+    const tokenPayload = {
+      userId: user._id,
+      username: user.username,
+      
+      // Add any other user details you want to include in the token
+    };
+
+    // Sign the token with user details in the payload
+    const token = jwt.sign(tokenPayload, config.jwtSecret, { expiresIn: '1h' });
+
     res.status(200).json({ token });
   } catch (err) {
     console.error(err);

@@ -28,10 +28,10 @@ router.post('/submit',authenticate, async (req, res) => {
   try {
     const { description } = req.body;
     console.log(req.body);
-    const id = req.user;
+    const name = req.user.username;
     const complaintId = generateComplaintId();
     console.log(complaintId);
-    const newComplaint = new Complaint({ id, complaintId, description });
+    const newComplaint = new Complaint({ name , complaintId, description });
     await newComplaint.save();
     res.status(201).json({ message: 'Complaint submitted successfully' });
   } catch (error) {
@@ -39,5 +39,7 @@ router.post('/submit',authenticate, async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+module.exports= router;
 
 module.exports = router;
