@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import HomePage from './component/HomePage';
+import SignupPage from './component/SignupPage';
 import LoginPage from './component/LoginPage';
 import LoginTypeSelection from './component/LoginTypeSelection';
 import ComplaintForm from './component/ComplaintForm';
@@ -14,19 +15,17 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginTypeSelection />} />
-        <Route path="/login/:userType" element={<LoginPage />} />
+        <Route path="/home" element={<LoginTypeSelection />} />
+        <Route path="/register" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/complaint/:userType" element={<ComplaintForm />} />
-        <Route path="/superadmin/dashboard" element={<SuperAdminDashboard />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/department/dashboard" element={<DepartmentDashboard />} />
-
-        {/* <Route path="/complaint/student" element={<ComplaintForm userType="student" />} />
-        <Route path="/complaint/staff" element={<ComplaintForm userType="staff" />} /> */}
-
+        <Route path="/superadmin_dashboard" element={<SuperAdminDashboard />} />
+        <Route path="/admin_dashboard" element={<AdminDashboard />} />
+        <Route path="/department_dashboard" element={<DepartmentDashboard />} />
       </Routes>
     </Router>
   );
 }
 
 export default App;
+

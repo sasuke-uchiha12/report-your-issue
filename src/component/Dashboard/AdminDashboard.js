@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ComplaintForm from '../ComplaintForm';
+//import ComplaintForm from '../ComplaintForm';
 import ComplaintsTable from '../ComplaintsTable';
 import DashHeader from '../DashHeader';
 // import './AdminDashboard.css'; // Assuming you have separate styles for the admin dashboard

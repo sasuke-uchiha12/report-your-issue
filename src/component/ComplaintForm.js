@@ -1,283 +1,252 @@
 import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
 import { Document, Page, Text, StyleSheet, View, Image, BlobProvider } from '@react-pdf/renderer';
 import '../css/ComplaintsForm.css';
-// import ComplaintsTable from './ComplaintsTable';
-
 import logo from '../img/home/image1.jpg';
-// import seal from '../img/home/image1.jpg';
-// import signaturePlaceholder from '../img/home/image1.jpg';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
-// Styles for the PDF document
 const styles = StyleSheet.create({
     page: {
-        padding: 30,
-        // fontFamily: 'Arial, sans-serif',
-        fontSize: 12,
-        color: '#333',
+      fontFamily: 'Helvetica',
+      fontSize: 12,
+      padding: 30,
     },
     header: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginBottom: 20,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginBottom: 20,
     },
     logo: {
-        width: 120,
-        height: 60,
+      width: 100,
+      height: 70,
+    },
+    universityName: {
+      fontSize: 45,
+      fontWeight: 'bold',
+    },
+    address: {
+      fontSize: 12,
+      marginLeft: 125,
+      marginBottom: 10,
+      marginTop: -40
     },
     title: {
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 20,
+      fontSize: 20,
+      marginBottom: 20,
+      textAlign: 'center',
     },
     table: {
-        display: 'table',
-        width: '100%',
-        marginBottom: 20,
+      display: 'table',
+      width: 'auto',
+      marginBottom: 20,
     },
-    tableRow: {
+    row: {
+      flexDirection: 'row',
+    },
+    fieldContainer:{
         flexDirection: 'row',
-        display: 'table-row',
+        marginBottom: 10,
     },
-    tableCellLabel: {
-        display: 'table-cell',
-        width: '30%',
-        fontWeight: 'bold',
-        paddingRight: 10,
+    labelCell: {
+      width: '40%',
     },
-    tableCellValue: {
-        display: 'table-cell',
+    inputCell: {
+      width: '60%',
+    },
+    label: {
+      fontWeight: 'Bold',
+
+    },
+    input: {
+      borderBottomWidth: 1,
+      padding: 4,
+      marginBottom: 5,
+      width: '100%',
     },
     footer: {
-        marginTop: 20,
-        fontSize: 12,
-        textAlign: 'center',
+      position: 'absolute',
+      bottom: 30,
+      left: 0,
+      right: 0,
+      textAlign: 'center',
+      fontSize: 10,
+      fontStyle: 'italic',
     },
-    signaturesContainer: {
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    signature: {
-        width: 100,
-        height: 50,
-        marginHorizontal: 20,
-    },
-});
+  });
 
-
-function ComplaintForm({ onSubmit }) {
-    // const { userType } = useParams();
-    const [complaintData, setComplaintData] = useState({
-        assignedWorker: '', // Initially empty
-        status: 'Pending',
-        // ... (initial form data)
+  function ComplaintForm({ onSubmit }) {
+    const navigate = useNavigate();
+  
+    // State variables for form fields and initial values
+    const [formData, setFormData] = useState({
+      description: '',
+      location: '',
+      departmentPhoneNumber: '',
+      severity: 'low', // Default value
     });
+  
     const [showPreview, setShowPreview] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+  
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setComplaintData({ ...complaintData, [name]: value });
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     };
-
-    const handleImageChange = (e) => {
-        setComplaintData({ ...complaintData, image: e.target.files[0] });
-    };
-
+  
     const handleSubmit = (e) => {
-        e.preventDefault();
-        setShowPreview(true);
+      e.preventDefault();
+      setShowPreview(true);
     };
-
+  
     const handleEdit = () => {
-        setShowPreview(false);
+      setShowPreview(false);
     };
-
-    const handleFinalSubmit = (e) => {
-        // Logic to submit form data to the server
-        console.log('Final submission:', complaintData);
-        onSubmit(complaintData);
-        // Redirect or show a success message
+  
+    const handleFinalSubmit = async (e) => {
+      e.preventDefault();
+      setIsLoading(true);
+      try {
+        const response = await axios.post('http://localhost:3001/complaints', formData);
+        console.log('Final Submission', response.data);
+        setFormData((prevData) => ({
+          ...prevData,
+          complaintId: prevData.complaintId + 1,
+        }));
+        navigate('/');
+      } catch (error) {
+        setError('Error submitting complaint');
+        console.error('Error submitting complaint:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     const ComplaintDocument = (
-        <Document>
-            <Page size="A4" style={styles.page}>
+            <Document>
+              <Page size="A4" style={styles.page}>
                 <View style={styles.header}>
-                    <Image style={styles.logo} src={logo} />
+                  <Image style={styles.logo} src={logo} />
+                  <Text style={styles.universityName}>ANNA UNIVERSITY</Text>
                 </View>
-
+                <View style={styles.header}>
+                  <Text style={styles.address}>
+                  12, Sardar Patel Rd, Anna University, Guindy, Chennai, Tamil Nadu 600025
+                  </Text>
+                </View>
+          
                 <Text style={styles.title}>Complaint Form</Text>
-
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Identifier:</Text>
-                    <Text style={styles.value}>{complaintData.identifier}</Text>
+          
+                <View style={styles.table}>
+                  <View style={[styles.row, styles.fieldContainer]}>
+                    <Text style={[styles.label, styles.labelCell]}>Description:</Text>
+                    <Text style={[styles.input, styles.inputCell]}>{formData.description}</Text>
+                  </View>
+                  <View style={[styles.row, styles.fieldContainer]}>
+                    <Text style={[styles.label, styles.labelCell]}>Location:</Text>
+                    <Text style={[styles.input, styles.inputCell]}>{formData.location}</Text>
+                  </View>
+                  <View style={[styles.row, styles.fieldContainer]}>
+                    <Text style={[styles.label, styles.labelCell]}>Department Phone Number:</Text>
+                    <Text style={[styles.input, styles.inputCell]}>{formData.departmentPhoneNumber}</Text>
+                  </View>
+                  <View style={[styles.row, styles.fieldContainer]}>
+                    <Text style={[styles.label, styles.labelCell]}>Severity:</Text>
+                    <Text style={[styles.input, styles.inputCell]}>{formData.severity}</Text>
+                  </View>
                 </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Title:</Text>
-                    <Text style={styles.value}>{complaintData.title}</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Issue:</Text>
-                    <Text style={styles.value}>{complaintData.issue}</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Location:</Text>
-                    <Text style={styles.value}>{complaintData.location}</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Nature of the Complaint:</Text>
-                    <Text style={styles.value}>{complaintData.nature}</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Phone Number:</Text>
-                    <Text style={styles.value}>{complaintData.phone}</Text>
-                </View>
-                <View style={styles.fieldContainer}>
-                    <Text style={styles.label}>Priority:</Text>
-                    <Text style={styles.value}>{complaintData.priority}</Text>
-                </View>
-                {complaintData.image && (
-                    <View style={styles.fieldContainer}>
-                        <Text style={styles.label}>Image Attached:</Text>
-                        <Text style={styles.value}>{complaintData.image.name}</Text>
-                    </View>
-                )}
-
+          
                 <Text style={styles.footer}>
-                    This is an electronic copy of the official complaint form.
+                  This is an electronic copy of the official complaint form.
                 </Text>
-            </Page>
-        </Document>
-    );
-
-
-
-
-    return (
-        <div className="complaint-form-container" onClick={(e) => e.stopPropagation()}>
-            {!showPreview ? (
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
-                    <h1>Complaint Form</h1>
-                    <div className="input-group">
-                        <label htmlFor="identifier">Identifier</label>
-                        <input
-                            type="text"
-                            id="identifier"
-                            name="identifier"
-                            value={complaintData.identifier}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="title">Title</label>
-                        <input
-                            type="text"
-                            id="title"
-                            name="title"
-                            value={complaintData.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="issue">Issue</label>
-                        <textarea
-                            id="issue"
-                            name="issue"
-                            value={complaintData.issue}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="location">Location</label>
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            value={complaintData.location}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="nature">Nature of the Complaint</label>
-                        <input
-                            type="text"
-                            id="nature"
-                            name="nature"
-                            value={complaintData.nature}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="phone">Phone Number</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={complaintData.phone}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="priority">Priority</label>
-                        <select
-                            id="priority"
-                            name="priority"
-                            value={complaintData.priority}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="low">Low</option>
-                            <option value="medium">Medium</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div className="input-group">
-                        <label htmlFor="image">Image (Optional)</label>
-                        <input
-                            type="file"
-                            id="image"
-                            name="image"
-                            onChange={handleImageChange}
-                            accept="image/*"
-                        />
-                    </div>
-                    <input type="hidden" name="assignedWorker" value={complaintData.assignedWorker} />
-                    <input type="hidden" name="status" value={complaintData.status} />
-                    <button type="submit">Submit Complaint</button>
+              </Page>
+            </Document>
+          );
+    
+          return (
+            <div className="complaint-form-container" onClick={(e) => e.stopPropagation()}>
+              {!showPreview ? (
+                <form onSubmit={handleSubmit}>
+                  <h1>Complaint Form</h1>
+                  <div className="input-group">
+                    <label htmlFor="description">Description</label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      value={formData.description}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="location">Location</label>
+                    <input
+                      type="text"
+                      id="location"
+                      name="location"
+                      value={formData.location}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="departmentPhoneNumber">Department Phone Number</label>
+                    <input
+                      type="tel"
+                      id="departmentPhoneNumber"
+                      name="departmentPhoneNumber"
+                      value={formData.departmentPhoneNumber}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label htmlFor="severity">Severity</label>
+                    <select
+                      id="severity"
+                      name="severity"
+                      value={formData.severity}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="low">Low</option>
+                      <option value="medium">Medium</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
+                  <button type="submit">Preview Complaint</button>
                 </form>
-            ) : (
+              ) : (
                 <BlobProvider document={ComplaintDocument}>
-                    {({ blob, url, loading, error }) => {
-                        if (loading) {
-                            return <div>Loading preview...</div>;
-                        }
-                        return (
-                            <div>
-                                <iframe src={url} style={{ width: '100%', height: '580px' }} title="Preview" />
-                                <div>
-                                    {/* <ComplaintsTable complaints={[complaintData]} /> */}
-                                    <button onClick={handleEdit}>Edit</button>
-                                    <button onClick={handleFinalSubmit}>Confirm and Submit</button>
-                                    <a href={url} download="ComplaintDetails.pdf">
-                                        <button>Download PDF</button>
-                                    </a>
-                                </div>
-                            </div>
-                        );
-                    }}
+                  {({ url, loading }) => {
+                    if (loading) {
+                      return <div>Loading preview...</div>;
+                    }
+                    return (
+                      <div>
+                        <iframe src={url} style={{ width: '100%', height: '580px' }} title="Preview" />
+                        <div>
+                          <button onClick={handleEdit}>Edit</button>
+                          <button onClick={handleFinalSubmit} disabled={isLoading}>
+                            {isLoading ? 'Submitting...' : 'Confirm & Submit'}
+                          </button>
+                          {error && <p>{error}</p>}
+                          <a href={url} download="ComplaintDetails.pdf">
+                            <button>Download PDF</button>
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  }}
                 </BlobProvider>
-            )}
-        </div>
-    );
-}
-
-export default ComplaintForm;
+              )}
+            </div>
+          );
+        }
+        
+        export default ComplaintForm;

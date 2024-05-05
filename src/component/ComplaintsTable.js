@@ -1,55 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import '../css/ComplaintsTable.css'; // Import your CSS file for styling
 
-function ComplaintsTable({ complaints, handleAssignWorkerAndStatus }) {
-    return (
-        <table className="complaints-table">
-            <thead>
-                <tr>
-                    <th>Identifier</th>
-                    <th>Title</th>
-                    <th>Issue</th>
-                    <th>Assigned Worker</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {complaints.map((complaint, index) => (
-                    <tr key={index}>
-                        <td>{complaint.identifier}</td>
-                        <td>{complaint.title}</td>
-                        <td>{complaint.issue}</td>
-                        <td>{complaint.assignedWorker}</td>
-                        <td>{complaint.status}</td>
-                        <td>
-                            {/* Dropdown to select assigned worker */}
-                            <select
-                                value={complaint.assignedWorker}
-                                onChange={(e) => handleAssignWorkerAndStatus(index, e.target.value, complaint.status)}
-                            >
-                                <option value="">Select Worker</option>
-                                {/* Add options for available workers */}
-                                <option value="Worker 1">Worker 1</option>
-                                <option value="Worker 2">Worker 2</option>
-                                {/* Add more options as needed */}
-                            </select>
+function ComplaintsTable() {
+  const [complaints, setComplaints] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-                            {/* Dropdown to select status */}
-                            <select
-                                value={complaint.status}
-                                onChange={(e) => handleAssignWorkerAndStatus(index, complaint.assignedWorker, e.target.value)}
-                            >
-                                <option value="Pending">Pending</option>
-                                <option value="Assigned">Assigned</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    );
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get('http://localhost:3001/getComplaints');
+        setComplaints(response.data);
+      } catch (error) {
+        setError('Error fetching complaints');
+        console.error('Error fetching complaints:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchComplaints();
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
+
+  if (isLoading) {
+    return <div>Loading complaints...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <table className="complaints-table">
+      <thead>
+        <tr>
+          <th>Complaint ID</th>
+          <th>Description</th>
+          <th>Location</th>
+          <th>Department Ph.No.</th>
+          <th>Severity</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {complaints.map((complaint) => {
+          return (
+            <tr key={complaint._id}>
+              <td>{complaint._id}</td>
+              <td>{complaint.description}</td>
+              <td>{complaint.location}</td>
+              <td>{complaint.departmentPhoneNumber}</td>
+              <td>{complaint.severity}</td>
+              <td>{complaint.status}</td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
 }
 
 export default ComplaintsTable;
